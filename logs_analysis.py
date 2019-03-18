@@ -40,13 +40,13 @@ def get_results_from_query(cur, sql):
 def top_three_articles():
     """Fetch the top three articles and print out the results"""
     # SQL query to execute
-    sql = """select articles.title, count(log.path) as views
-        from articles, log
-        where articles.slug = substr(log.path, 10)
-        and log.status like '2%'
-        group by articles.title
-        order by views desc
-        limit 3;"""
+    sql = """SELECT articles.title, COUNT(log.path) AS views
+        FROM articles, log
+        WHERE articles.slug = SUBSTR(log.path, 10)
+        AND log.status LIKE '2%'
+        GROUP BY articles.title
+        ORDER BY views DESC
+        LIMIT 3;"""
     # Connect to db
     conn, cur = connect_db()
     # Fetch results
@@ -61,13 +61,13 @@ def top_three_articles():
 def top_authors():
     """Fetch the top authors and print out the results"""
     # SQL query to execute
-    sql = """select authors.name, count(log.path) as views
-        from authors, articles, log
-        where authors.id = articles.author
-        and articles.slug = substr(log.path, 10)
-        and log.status like '2%'
-        group by authors.name
-        order by views desc;"""
+    sql = """SELECT authors.name, COUNT(log.path) AS views
+        FROM authors, articles, log
+        WHERE authors.id = articles.author
+        AND articles.slug = SUBSTR(log.path, 10)
+        AND log.status LIKE '2%'
+        GROUP BY authors.name
+        ORDER BY views DESC;"""
     # Connect to db
     conn, cur = connect_db()
     # Fetch results
@@ -83,19 +83,19 @@ def requests_to_errors():
     """Fetch requests where more than 1% lead to errors
     and print out the results"""
     # SQL query to execute
-    sql = """select total.date,
-        round((1.0*errors.count/total.count) * 100, 1) as percent
-        from (select to_char(time, 'FMMonth FMDD, YYYY') as date,
-            count(*) as count
-            from log
-            group by date) as total,
-            (select to_char(time, 'FMMonth FMDD, YYYY') as date,
-            count(*) as count
-            from log
-            where status not like '2%'
-            group by date) as errors
-        where total.date = errors.date
-        and round((1.0*errors.count/total.count) * 100) > 1.0;"""
+    sql = """SELECT total.date,
+        ROUND((1.0*errors.count/total.count) * 100, 1) AS percent
+        FROM (SELECT to_char(time, 'FMMonth FMDD, YYYY') AS date,
+            COUNT(*) AS count
+            FROM log
+            GROUP BY date) AS total,
+            (SELECT to_char(time, 'FMMonth FMDD, YYYY') AS date,
+            COUNT(*) AS count
+            FROM log
+            WHERE status NOT LIKE '2%'
+            GROUP BY date) AS errors
+        WHERE total.date = errors.date
+        AND ROUND((1.0*errors.count/total.count) * 100) > 1.0;"""
     # Connect to db
     conn, cur = connect_db()
     # Fetch results
@@ -108,12 +108,13 @@ def requests_to_errors():
 
 
 def main():
-    print("\n  Most popular three aricles of all time\n")
-    top_three_articles()
-    print("\n  Most popular article authors of all time\n")
-    top_authors()
-    print("\n  Days on which more than 1% of requests lead to errors\n")
-    requests_to_errors()
+    if connect_db():
+        print("\n  Most popular three aricles of all time\n")
+        top_three_articles()
+        print("\n  Most popular article authors of all time\n")
+        top_authors()
+        print("\n  Days on which more than 1% of requests lead to errors\n")
+        requests_to_errors()
 
 
 if __name__ == '__main__':
