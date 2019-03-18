@@ -7,27 +7,18 @@
 
 import psycopg2
 
-# Constant variables
-DBNAME = 'news'
 
-
-def get_query_from_db(sql):
-    """Connect to database and return sql query
-    :param sql: The sql query to be executed and returned
-    """
-    # Connect to a database
-    conn = psycopg2.connect(dbname=DBNAME)
-    # Open cursor to perform database operations
-    cur = conn.cursor()
-    # Execute sql command
-    cur.execute(sql)
-    # Obtain data as python objects
-    results = cur.fetchall()
-    # Close communication with the database
-    cur.close()
-    conn.close()
-    # Return python objects
-    return results
+def connect_db(dbname="news"):
+    """Connect to database and return connection and cursor instance"""
+    try:
+        # Connect to a database
+        conn = psycopg2.connect(dbname=dbname)
+        # Open cursor to perform database operations
+        cur = conn.cursor()
+        # Return connection and cursor instances
+        return conn, cur
+    except psycopg2.DatabaseError:
+        print("Unable to connect to database")
 
 
 if __name__ == '__main__':
