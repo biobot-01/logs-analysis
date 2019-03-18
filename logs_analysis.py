@@ -79,5 +79,33 @@ def top_authors():
         print("{} - {} views".format(*result))
 
 
+def requests_to_errors():
+    """Fetch requests where more than 1% lead to errors
+    and print out the results"""
+    # SQL query to execute
+    sql = """select total.date,
+        round((1.0*errors.count/total.count) * 100, 1) as percent
+        from (select to_char(time, 'FMMonth FMDD, YYYY') as date,
+            count(*) as count
+            from log
+            group by date) as total,
+            (select to_char(time, 'FMMonth FMDD, YYYY') as date,
+            count(*) as count
+            from log
+            where status not like '2%'
+            group by date) as errors
+        where total.date = errors.date
+        and round((1.0*errors.count/total.count) * 100) > 1.0;"""
+    # Connect to db
+    conn, cur = connect_db()
+    # Fetch results
+    results = get_results_from_query(cur, sql)
+    # Disconnect from db
+    disconnect_db(conn, cur)
+    # Prin out the results
+    for result in results:
+        print("{} - {}% errors".format(*result))
+
+
 if __name__ == '__main__':
     main()
