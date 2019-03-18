@@ -21,5 +21,11 @@ def connect_db(dbname="news"):
         print("Unable to connect to database")
 
 
+def disconnect_db(conn, cur):
+    """Close communication with the database"""
+    cur.close()
+    conn.close()
+
+
 if __name__ == '__main__':
     main()
