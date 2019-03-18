@@ -55,7 +55,7 @@ def top_three_articles():
     disconnect_db(conn, cur)
     # Print out the results
     for result in results:
-        print("\"{}\" - {} views".format(*result))
+        print("\t\"{}\" - {} views".format(*result))
 
 
 def top_authors():
@@ -76,7 +76,7 @@ def top_authors():
     disconnect_db(conn, cur)
     # Prin out the results
     for result in results:
-        print("{} - {} views".format(*result))
+        print("\t{} - {} views".format(*result))
 
 
 def requests_to_errors():
@@ -104,7 +104,16 @@ def requests_to_errors():
     disconnect_db(conn, cur)
     # Prin out the results
     for result in results:
-        print("{} - {}% errors".format(*result))
+        print("\t{} - {}% errors".format(*result))
+
+
+def main():
+    print("\n  Most popular three aricles of all time\n")
+    top_three_articles()
+    print("\n  Most popular article authors of all time\n")
+    top_authors()
+    print("\n  Days on which more than 1% of requests lead to errors\n")
+    requests_to_errors()
 
 
 if __name__ == '__main__':
