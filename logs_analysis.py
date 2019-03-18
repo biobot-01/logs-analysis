@@ -12,6 +12,9 @@ DBNAME = 'news'
 
 
 def get_query_from_db(sql):
+    """Connect to database and return sql query
+    :param sql: The sql query to be executed and returned
+    """
     # Connect to a database
     conn = psycopg2.connect(dbname=DBNAME)
     # Open cursor to perform database operations
