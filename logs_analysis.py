@@ -21,3 +21,6 @@ results = cur.fetchall()
 # Close communication with the database
 cur.close()
 conn.close()
+
+if __name__ == '__main__':
+    main()
