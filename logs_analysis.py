@@ -38,6 +38,8 @@ def get_results_from_query(cur, sql):
 
 
 def top_three_articles():
+    """Fetch the top three articles and print out the results"""
+    # SQL query to execute
     sql = """select articles.title, count(log.path) as views
         from articles, log
         where articles.slug = substr(log.path, 10)
@@ -45,13 +47,36 @@ def top_three_articles():
         group by articles.title
         order by views desc
         limit 3;"""
-
+    # Connect to db
     conn, cur = connect_db()
+    # Fetch results
     results = get_results_from_query(cur, sql)
+    # Disconnect from db
     disconnect_db(conn, cur)
-
+    # Print out the results
     for result in results:
         print("\"{}\" - {} views".format(*result))
+
+
+def top_authors():
+    """Fetch the top authors and print out the results"""
+    # SQL query to execute
+    sql = """select authors.name, count(log.path) as views
+        from authors, articles, log
+        where authors.id = articles.author
+        and articles.slug = substr(log.path, 10)
+        and log.status like '2%'
+        group by authors.name
+        order by views desc;"""
+    # Connect to db
+    conn, cur = connect_db()
+    # Fetch results
+    results = get_results_from_query(cur, sql)
+    # Disconnect from db
+    disconnect_db(conn, cur)
+    # Prin out the results
+    for result in results:
+        print("{} - {} views".format(*result))
 
 
 if __name__ == '__main__':
