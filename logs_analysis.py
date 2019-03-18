@@ -10,17 +10,22 @@ import psycopg2
 # Constant variables
 DBNAME = 'news'
 
-# Connect to a database
-conn = psycopg2.connect(dbname=DBNAME)
-# Open cursor to perform database operations
-cur = conn.cursor()
-# Execute sql command
-cur.execute()
-# Obtain data as python objects
-results = cur.fetchall()
-# Close communication with the database
-cur.close()
-conn.close()
+
+def get_query_from_db(sql):
+    # Connect to a database
+    conn = psycopg2.connect(dbname=DBNAME)
+    # Open cursor to perform database operations
+    cur = conn.cursor()
+    # Execute sql command
+    cur.execute(sql)
+    # Obtain data as python objects
+    results = cur.fetchall()
+    # Close communication with the database
+    cur.close()
+    conn.close()
+    # Return python objects
+    return results
+
 
 if __name__ == '__main__':
     main()
