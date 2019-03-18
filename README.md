@@ -1,9 +1,9 @@
 # Logs Analysis Reporting Tool
-A reporting tool that will use information from the database to discover what kind of articles the site's readers like.
+A reporting tool that uses information from a database to discover what kind of articles the site's readers like.
 
 ## Project Overview
 
-The database contains newspaper articles, as well as the web server log for the site. Using that information, the code will answer questions about the site's user activity.
+The database contains newspaper articles, as well as the web server log for the site. Using the information in the database, the code will answer questions about the site's user activity.
 
 The program runs from the command line and does not require any input from the user. It will connect to the database, use SQL queries to analyse the log data, and print out the answers to some questions.
 
