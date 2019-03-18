@@ -37,5 +37,22 @@ def get_results_from_query(cur, sql):
     return results
 
 
+def top_three_articles():
+    sql = """select articles.title, count(log.path) as views
+        from articles, log
+        where articles.slug = substr(log.path, 10)
+        and log.status like '2%'
+        group by articles.title
+        order by views desc
+        limit 3;"""
+
+    conn, cur = connect_db()
+    results = get_results_from_query(cur, sql)
+    disconnect_db(conn, cur)
+
+    for result in results:
+        print("\"{}\" - {} views".format(*result))
+
+
 if __name__ == '__main__':
     main()
