@@ -1,13 +1,6 @@
 # Logs Analysis Reporting Tool
 A reporting tool that will use information from the database to discover what kind of articles the site's readers like.
 
-## Table of Contents
-
-1. [Project Overview] (#project-overview)
-1. [Requirements] (#requirements)
-1. [Project Contents] (#project-contents)
-1. [Project Setup] (#project-setup)
-
 ## Project Overview
 
 The database contains newspaper articles, as well as the web server log for the site. Using that information, the code will answer questions about the site's user activity.
