@@ -27,5 +27,15 @@ def disconnect_db(conn, cur):
     conn.close()
 
 
+def get_results_from_query(cur, sql):
+    """Execute sql query and return the results as python objects"""
+    # Execute sql command
+    cur.execute(sql)
+    # Obtain data as python objects
+    results = cur.fetchall()
+    # Return python objects
+    return results
+
+
 if __name__ == '__main__':
     main()
